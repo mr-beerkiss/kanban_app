@@ -1,0 +1,36 @@
+{
+  "name": "kanban_app",
+  "version": "1.0.0",
+  "description": "Repo for working through the book 'Survivejs - Webpack and Reat'",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "lint": "npm run lint-js && npm run lint-css",
+    "lint-js": "eslint . --ext .js --ext .jsx",
+    "lint-css": "csslint app --quiet"np
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mr-beerkiss/kanban_app.git"
+  },
+  "author": "Darren Beukes <darren@beerkiss.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mr-beerkiss/kanban_app/issues"
+  },
+  "homepage": "https://github.com/mr-beerkiss/kanban_app#readme",
+  "devDependencies": {
+    "babel-eslint": "^4.1.3",
+    "css-loader": "^0.21.0",
+    "csslint": "^0.10.0",
+    "csslint-loader": "^0.2.1",
+    "eslint": "^1.8.0",
+    "eslint-loader": "^1.1.0",
+    "eslint-plugin-react": "^3.6.3",
+    "html-webpack-plugin": "^1.6.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1",
+    "webpack-merge": "^0.2.0"
+  }
+}
