@@ -29,3 +29,5 @@ node_modules
 # OSX system files
 .DS_Store
 
+# Generated files
+build

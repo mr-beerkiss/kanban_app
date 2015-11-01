@@ -7,7 +7,7 @@
     "start": "webpack-dev-server",
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
-    "lint-css": "csslint app --quiet"np
+    "lint-css": "csslint app --quiet"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   "homepage": "https://github.com/mr-beerkiss/kanban_app#readme",
   "devDependencies": {
     "babel-eslint": "^4.1.3",
+    "babel-loader": "^6.0.0",
     "css-loader": "^0.21.0",
     "csslint": "^0.10.0",
     "csslint-loader": "^0.2.1",
@@ -32,5 +33,8 @@
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1",
     "webpack-merge": "^0.2.0"
+  },
+  "dependencies": {
+    "react": "^0.14.1"
   }
 }

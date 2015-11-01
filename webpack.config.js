@@ -13,6 +13,9 @@ const BUILD_PATH = path.resolve(ROOT_PATH, 'build');
 // common configuration for all lifecycle events
 const common = {
     entry: APP_PATH,
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
     output: {
         path: BUILD_PATH,
         filename: 'bundle.js'
@@ -34,6 +37,11 @@ const common = {
             {
                 test: /\.css$/,
                 loaders: ['style', 'css'],
+                include: APP_PATH
+            },
+            {
+                test: /\.jsx?$/,
+                loaders: ['babel'],
                 include: APP_PATH
             }
         ]
