@@ -13,3 +13,6 @@ insert_final_newline = true
 # Format specific overrides
 [*.md]
 trim_trailing_whitespace = false
+
+[{.babelrc, .csslintrc, .eslintrc, packack.json}]
+indent_size = 2
