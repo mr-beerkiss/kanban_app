@@ -16,5 +16,8 @@
         }
       }
     }
-  }
+  },
+  "optional": [
+    "es7.decorators"
+  ]
 }
