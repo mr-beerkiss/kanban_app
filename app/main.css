@@ -30,7 +30,7 @@ body {
     transition: .6s;
 }
 
-.note .task {
+.note .value {
     /* Force to use inline-block so that it gets minimum height */
     display: inline-block;
 }
