@@ -5,6 +5,9 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 
+const pkg = require('./package.json');
+const Clean = require('clean-webpack-plugin');
+
 const TARGET = process.env.npm_lifecycle_event;
 const ROOT_PATH = path.resolve(__dirname);
 const APP_PATH = path.resolve(ROOT_PATH, 'app');
@@ -68,5 +71,39 @@ if ( TARGET === 'start' || !TARGET ) {
         plugins: [
             new webpack.HotModuleReplacementPlugin()
         ],
+    });
+} else if ( TARGET === 'build' ) {
+    module.exports = merge(common, {
+        entry: {
+            app: APP_PATH,
+            vendor: Object.keys(pkg.dependencies)
+        },
+        /* important! */
+        output: {
+            // Note that hashing the file names themselves is preferred to using query params
+            // to force the cache to invalidate
+            // http://www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
+            path: BUILD_PATH,
+            filename: '[name].[chunkhash].js'
+        },
+        devtool: 'source-map',
+        plugins: [
+            new Clean(['build']),
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
+                }
+            }),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    // This affects react lib size
+                    'NODE_ENV' : JSON.stringify('production')
+                }
+            }),
+            new webpack.optimize.CommonsChunkPlugin(
+                'vendor',
+                '[name].[chunkhash].js'
+            )
+        ]
     });
 }
