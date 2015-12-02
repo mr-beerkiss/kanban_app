@@ -8,7 +8,8 @@
     "lint": "npm run lint-js && npm run lint-css",
     "lint-js": "eslint . --ext .js --ext .jsx",
     "lint-css": "csslint app --quiet",
-    "build": "webpack"
+    "build": "webpack --progress",
+    "stats": "webpack --profile --json > stats.json"
   },
   "repository": {
     "type": "git",

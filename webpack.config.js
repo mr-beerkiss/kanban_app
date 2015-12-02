@@ -6,7 +6,9 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 const pkg = require('./package.json');
+
 const Clean = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const TARGET = process.env.npm_lifecycle_event;
 const ROOT_PATH = path.resolve(__dirname);
@@ -26,24 +28,7 @@ const common = {
         filename: 'bundle.js'
     },
     module: {
-        preLoaders: [
-            {
-                test: /\.jsx?$/,
-                loaders: ['eslint'],
-                include: APP_PATH
-            },
-            {
-                test: /\.css$/,
-                loaders: ['csslint'],
-                include: APP_PATH
-            }
-        ],
         loaders: [
-            {
-                test: /\.css$/,
-                loaders: ['style', 'css'],
-                include: APP_PATH
-            },
             {
                 test: /\.jsx?$/,
                 loaders: ['babel'],
@@ -68,11 +53,34 @@ if ( TARGET === 'start' || !TARGET ) {
             progress: true,
             port: 3000
         },
+        module: {
+            preLoaders: [
+                {
+                    test: /\.jsx?$/,
+                    loaders: ['eslint'],
+                    include: APP_PATH
+                },
+                {
+                    test: /\.css$/,
+                    loaders: ['csslint'],
+                    include: APP_PATH
+                }
+            ],
+            loaders: [
+                {
+                    test: /\.css$/,
+                    loaders: ['style', 'css'],
+                    include: APP_PATH
+                }
+            ]
+        },
         plugins: [
             new webpack.HotModuleReplacementPlugin()
         ],
     });
-} else if ( TARGET === 'build' ) {
+}
+
+if ( TARGET === 'build' || TARGET === 'stats' ) {
     module.exports = merge(common, {
         entry: {
             app: APP_PATH,
@@ -87,8 +95,25 @@ if ( TARGET === 'start' || !TARGET ) {
             filename: '[name].[chunkhash].js'
         },
         devtool: 'source-map',
+        module: {
+            loaders: [
+                {
+                    test: /\.css$/,
+                    loader: ExtractTextPlugin.extract('style', 'css'),
+                    // To chain loaders using function syntax use ! operator, ie
+                    // loader: ExtractTextPlugin.extract('style', 'css!autoprefixer-loader'),
+                    include: APP_PATH
+                }
+            ]
+        },
         plugins: [
+            // TODO: Checkout the DedupePlugin to help remove duplication from the bundled libs
+            // https://github.com/webpack/docs/wiki/optimization
+
+            // TODO: CHeckout code splitting to lazy load modules
+            // https://webpack.github.io/docs/code-splitting.html
             new Clean(['build']),
+            new ExtractTextPlugin('styles.[chunkhash].css'),
             new webpack.optimize.UglifyJsPlugin({
                 compress: {
                     warnings: false
